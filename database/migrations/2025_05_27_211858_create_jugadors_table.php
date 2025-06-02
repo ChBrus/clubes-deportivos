@@ -1,0 +1,46 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('jugador', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('club_id')
+                ->constrained('club')
+                ->onDelete('cascade')
+            ;
+
+            $table->char('nombre', 30);
+            $table->tinyInteger('edad')->unsigned();
+            $table->foreignId('genero_id')
+                ->constrained('genero')
+                ->onDelete('cascade')
+            ;
+            $table->char('contacto', 20);
+            $table->foreignId('posicion_id')
+                ->nullable()
+                ->constrained('posicion')
+                ->onDelete('cascade')
+            ;
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('jugador');
+    }
+};
